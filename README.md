@@ -1,60 +1,61 @@
-# Monorepo Enterprise - Notes CRUD
+# Enterprise Monorepo - Notes CRUD
 
-Monorepo enterprise con Clean Architecture usando pnpm workspaces + Turborepo.
+Enterprise monorepo with Clean Architecture using pnpm workspaces + Turborepo.
 
 ## Stack
 
 - **Monorepo:** pnpm workspaces + Turborepo
-- **Backend:** NestJS + Swagger
-- **Frontend:** Next.js 15 (App Router)
+- **Backend:** NestJS 11 + Swagger
+- **Frontend:** Next.js 16 (App Router)
+- **UI:** React 19
 - **Database:** MongoDB + Mongoose
 - **API Client:** Orval
 - **Language:** TypeScript
 - **Linting:** ESLint + Prettier
 
-## Estructura
+## Structure
 
 ```
 apps/
-  api/            # NestJS API (puerto 3001)
-  web/            # Next.js CRUD básico (puerto 3000)
-  admin/          # Next.js CRUD completo (puerto 3002)
+  api/            # NestJS API (port 3001)
+  web/            # Next.js basic CRUD (port 3000)
+  admin/          # Next.js full CRUD (port 3002)
 
 packages/
-  domain/         # Entidades e interfaces (sin dependencias)
-  application/    # Casos de uso
-  infrastructure/ # Implementaciones (Mongoose)
+  domain/         # Entities and interfaces (no dependencies)
+  application/    # Use cases
+  infrastructure/ # Implementations (Mongoose)
   contracts/      # OpenAPI spec
-  ui/             # Componentes React compartidos
-  shared/         # Utilidades compartidas
+  ui/             # Shared React components
+  shared/         # Shared utilities
 ```
 
-## Requisitos
+## Requirements
 
 - Node.js >= 20
 - pnpm >= 9
-- Docker (para MongoDB)
+- Docker (for MongoDB)
 
-## Instalación
+## Installation
 
 ```bash
 pnpm install
 ```
 
-## Desarrollo
+## Development
 
 ```bash
-# Iniciar MongoDB
+# Start MongoDB
 pnpm db:start
 
-# Iniciar todos los servicios
+# Start all services
 pnpm dev
 ```
 
 ## URLs
 
-| Servicio | URL |
-|----------|-----|
+| Service | URL |
+|---------|-----|
 | API | http://localhost:3001 |
 | Swagger | http://localhost:3001/api |
 | Web | http://localhost:3000 |
@@ -63,16 +64,16 @@ pnpm dev
 ## Scripts
 
 ```bash
-pnpm dev          # Desarrollo
-pnpm build        # Build producción
+pnpm dev          # Development
+pnpm build        # Production build
 pnpm lint         # Linting
 pnpm lint:fix     # Fix linting
-pnpm format       # Formatear código
-pnpm format:check # Verificar formato
+pnpm format       # Format code
+pnpm format:check # Check formatting
 pnpm check        # Lint + format check
-pnpm generate:api # Regenerar clientes API (Orval)
-pnpm db:start     # Iniciar MongoDB
-pnpm db:stop      # Detener MongoDB
+pnpm generate:api # Regenerate API clients (Orval)
+pnpm db:start     # Start MongoDB
+pnpm db:stop      # Stop MongoDB
 ```
 
 ## Clean Architecture
@@ -87,26 +88,26 @@ Request → Controller → UseCase → Repository → MongoDB
           Next.js (web/admin)
 ```
 
-### Reglas
+### Rules
 
-- `domain` no depende de nada
-- `application` depende solo de `domain`
-- `infrastructure` implementa interfaces del `domain`
-- NestJS es solo un adaptador de entrada
-- Mongoose vive solo en `infrastructure`
-- UI compartida no depende de API ni dominio
+- `domain` has no external dependencies
+- `application` depends only on `domain`
+- `infrastructure` implements `domain` interfaces
+- NestJS is just an entry adapter
+- Mongoose lives only in `infrastructure`
+- Shared UI has no API or domain dependencies
 
 ## API Endpoints
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| POST | /notes | Crear nota |
-| GET | /notes | Listar notas |
-| GET | /notes/:id | Obtener nota |
-| PUT | /notes/:id | Actualizar nota |
-| DELETE | /notes/:id | Eliminar nota |
+| Method | Route | Description |
+|--------|-------|-------------|
+| POST | /notes | Create note |
+| GET | /notes | List notes |
+| GET | /notes/:id | Get note |
+| PUT | /notes/:id | Update note |
+| DELETE | /notes/:id | Delete note |
 
-## Entidad Note
+## Note Entity
 
 ```typescript
 {

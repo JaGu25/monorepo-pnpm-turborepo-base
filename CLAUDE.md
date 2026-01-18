@@ -1,78 +1,83 @@
-# CLAUDE.md - Guía para Claude Code
+# CLAUDE.md - Guidelines for Claude Code
 
-## Proyecto
+## Critical Rules
 
-Monorepo enterprise con Clean Architecture: pnpm + Turborepo + NestJS + Next.js + MongoDB.
+**NEVER add comments in generated code.** Code must be clean, direct, and comment-free.
 
-## Comandos Frecuentes
+## Project
+
+Enterprise monorepo with Clean Architecture: pnpm + Turborepo + NestJS 11 + Next.js 16 + React 19 + MongoDB.
+
+## Common Commands
 
 ```bash
-pnpm install      # Instalar dependencias
-pnpm build        # Build completo
-pnpm dev          # Desarrollo
-pnpm db:start     # Iniciar MongoDB (Docker)
+pnpm install      # Install dependencies
+pnpm build        # Full build
+pnpm dev          # Development
+pnpm db:start     # Start MongoDB (Docker)
 ```
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 apps/
-  api/            # NestJS (puerto 3001)
-  web/            # Next.js (puerto 3000)
-  admin/          # Next.js (puerto 3002)
+  api/            # NestJS (port 3001)
+  web/            # Next.js (port 3000)
+  admin/          # Next.js (port 3002)
 
 packages/
-  domain/         # Entidades e interfaces
+  domain/         # Entities and interfaces
   application/    # Use cases
   infrastructure/ # Mongoose repositories
   contracts/      # OpenAPI spec
-  ui/             # Componentes React
-  shared/         # Utilidades
+  ui/             # React components
+  shared/         # Utilities
 ```
 
-## Reglas de Clean Architecture
+## Clean Architecture Rules
 
-1. `domain` NO depende de nada externo
-2. `application` depende SOLO de `domain`
-3. `infrastructure` implementa interfaces de `domain`
-4. NestJS es adaptador de entrada (no lógica de negocio)
-5. Mongoose SOLO en `infrastructure`
-6. DTOs de Nest SOLO en `apps/api`
-7. UI compartida NO accede a API ni dominio
+1. `domain` has NO external dependencies
+2. `application` depends ONLY on `domain`
+3. `infrastructure` implements `domain` interfaces
+4. NestJS is an entry adapter (no business logic)
+5. Mongoose ONLY in `infrastructure`
+6. Nest DTOs ONLY in `apps/api`
+7. Shared UI does NOT access API or domain
 
-## Convenciones de Código
+## Code Conventions
 
-- TypeScript estricto
-- Sin comentarios en el código
-- ESLint + Prettier configurados
-- Imports ordenados alfabéticamente
+- Strict TypeScript
+- **No comments in code** (this is mandatory)
+- ESLint + Prettier configured
+- Imports sorted alphabetically
+- Clean, self-documenting code
 
-## Arquitectura de la API
+## API Architecture
 
 ```
 Controller → UseCase → Repository → MongoDB
 ```
 
-- Controllers: solo orquestan, no lógica
-- UseCases: lógica de negocio
-- Repository: interfaz en domain, implementación en infrastructure
+- Controllers: orchestration only, no logic
+- UseCases: business logic
+- Repository: interface in domain, implementation in infrastructure
 
-## Flujo de Datos Frontend
+## Frontend Data Flow
 
 ```
 OpenAPI (contracts) → Orval → Generated Client → Next.js
 ```
 
-Para regenerar clientes: `pnpm generate:api`
+To regenerate clients: `pnpm generate:api`
 
-## Base de Datos
+## Database
 
-- MongoDB en Docker
-- Esquemas en `packages/infrastructure`
-- Mappers para convertir Document ↔ Entity
+- MongoDB in Docker
+- Schemas in `packages/infrastructure`
+- Mappers to convert Document ↔ Entity
 
-## Notas Importantes
+## Important Notes
 
-- Build de packages antes de apps (Turborepo maneja orden)
-- Los packages usan CommonJS para compatibilidad con NestJS
-- Next.js apps tienen ESLint separado (.eslintrc.js)
+- Packages build before apps (Turborepo handles order)
+- Packages use CommonJS for NestJS compatibility
+- Next.js apps have separate ESLint config (.eslintrc.js)
