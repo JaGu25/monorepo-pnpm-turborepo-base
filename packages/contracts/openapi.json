@@ -1,0 +1,219 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/notes": {
+      "post": {
+        "operationId": "NotesController_create",
+        "summary": "Create a new note",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Note created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoteResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["notes"]
+      },
+      "get": {
+        "operationId": "NotesController_findAll",
+        "summary": "Get all notes",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NoteResponseDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["notes"]
+      }
+    },
+    "/notes/{id}": {
+      "get": {
+        "operationId": "NotesController_findOne",
+        "summary": "Get a note by id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Note found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoteResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "tags": ["notes"]
+      },
+      "put": {
+        "operationId": "NotesController_update",
+        "summary": "Update a note",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNoteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Note updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NoteResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Note not found"
+          }
+        },
+        "tags": ["notes"]
+      },
+      "delete": {
+        "operationId": "NotesController_remove",
+        "summary": "Delete a note",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Note deleted successfully"
+          }
+        },
+        "tags": ["notes"]
+      }
+    }
+  },
+  "info": {
+    "title": "Notes API",
+    "description": "Enterprise Notes CRUD API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "notes",
+      "description": "Notes management"
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:3001"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "CreateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "content"]
+      },
+      "UpdateNoteDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "NoteResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": ["id", "title", "content", "createdAt", "updatedAt"]
+      }
+    }
+  }
+}

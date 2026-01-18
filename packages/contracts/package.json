@@ -1,0 +1,13 @@
+{
+  "name": "@repo/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./openapi.json",
+  "exports": {
+    ".": "./openapi.json"
+  },
+  "scripts": {
+    "lint": "echo 'No lint for contracts'",
+    "typecheck": "echo 'No typecheck for contracts'"
+  }
+}
